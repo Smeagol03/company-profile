@@ -52,8 +52,7 @@ export const Navbar = () => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Refs for scroll optimization
-  const rafIdRef = useRef<number | null>(null);
+  // Ref for scroll optimization
   const isScrolledRef = useRef(false);
 
   // Memoized language lookup
@@ -64,29 +63,28 @@ export const Navbar = () => {
 
   // Optimized scroll handler with RAF throttling
   useEffect(() => {
-    const handleScroll = () => {
-      if (rafIdRef.current !== null) return;
-
-      rafIdRef.current = requestAnimationFrame(() => {
-        const scrolled = window.scrollY > 50;
-        if (scrolled !== isScrolledRef.current) {
-          isScrolledRef.current = scrolled;
-          setIsScrolled(scrolled);
-        }
-        rafIdRef.current = null;
-      });
+    const updateScrollState = () => {
+      const scrolled = window.scrollY > 50;
+      setIsScrolled(scrolled);
+      isScrolledRef.current = scrolled;
     };
 
     // Check initial scroll position
-    handleScroll();
+    updateScrollState();
 
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      if (rafIdRef.current !== null) {
-        cancelAnimationFrame(rafIdRef.current);
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        requestAnimationFrame(() => {
+          updateScrollState();
+          ticking = false;
+        });
+        ticking = true;
       }
     };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   // Close mobile menu on route change
@@ -130,10 +128,10 @@ export const Navbar = () => {
 
   const handleNavClick = useCallback(
     (href: string) => {
-      if (location.pathname === href) {
+      setIsOpen(false);
+      if (location.pathname === href || href === "/") {
         window.scrollTo({ top: 0, behavior: "smooth" });
       }
-      setIsOpen(false);
     },
     [location.pathname],
   );
