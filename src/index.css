@@ -1,0 +1,147 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colors - Industrial Palette */
+  --color-charcoal: #1A1A18;
+  --color-charcoal-800: #2E2E2B;
+  --color-charcoal-700: #3D3D39;
+  --color-charcoal-600: #4F4F4A;
+  --color-charcoal-500: #61615C;
+  
+  --color-gold: #D4A843;
+  --color-gold-light: #E8C06A;
+  --color-gold-dark: #B8892A;
+  --color-gold-muted: rgba(212, 168, 67, 0.1);
+  
+  --color-concrete: #8C8C85;
+  --color-concrete-light: #AEADA6;
+  --color-concrete-dark: #6B6B65;
+  
+  --color-warm-white: #F5F3EE;
+  --color-warm-offwhite: #E8E6DF;
+  --color-warm-cream: #FDFCFA;
+  
+  /* Typography */
+  --font-display: "Barlow Condensed", system-ui, sans-serif;
+  --font-body: "DM Sans", system-ui, sans-serif;
+  
+  /* Animation */
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-cubic: cubic-bezier(0.65, 0, 0.35, 1);
+  
+  /* Shadows */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  --shadow-gold: 0 0 30px -5px rgba(212, 168, 67, 0.3);
+  
+  /* Spacing Scale Extensions */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  --spacing-30: 7.5rem;
+  --spacing-128: 32rem;
+}
+
+/* Base Styles */
+@layer base {
+  * {
+    @apply border-concrete/20;
+  }
+  
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  body {
+    @apply font-body text-concrete-dark bg-warm-white antialiased;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display text-charcoal font-bold tracking-tight;
+  }
+  
+  ::selection {
+    @apply bg-gold text-charcoal;
+  }
+}
+
+/* Custom Utilities */
+@layer utilities {
+  .text-gradient-gold {
+    @apply bg-linear-to-r from-gold via-gold-light to-gold bg-clip-text text-transparent;
+  }
+  
+  .bg-noise {
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.03;
+  }
+  
+  .section-padding {
+    @apply py-16 sm:py-20 lg:py-24 xl:py-32;
+  }
+  
+  .container-custom {
+    @apply max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12;
+  }
+  
+  .container-narrow {
+    @apply max-w-5xl mx-auto px-4 sm:px-6 lg:px-8;
+  }
+}
+
+/* Animation Classes */
+@layer utilities {
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-10px); }
+  }
+  
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+}
+
+/* Swiper Custom Styles */
+.swiper-pagination-bullet {
+  @apply w-2 h-2 bg-concrete/50 opacity-100 transition-all duration-300;
+}
+
+.swiper-pagination-bullet-active {
+  @apply w-8 bg-gold rounded-full;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-charcoal-800;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-charcoal-600 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gold;
+}
+
+/* Focus Styles */
+*:focus-visible {
+  @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-warm-white;
+}
+
+/* Reduced Motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
