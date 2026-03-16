@@ -4,9 +4,9 @@ import { Footer } from "./Footer";
 
 export const Layout = () => {
   return (
-    <div className="min-h-screen bg-warm-white">
+    <div className="min-h-screen">
       <Navbar />
-      <main>
+      <main className="bg-warm-white">
         <Outlet />
       </main>
       <Footer />
