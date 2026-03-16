@@ -1,14 +1,28 @@
-import { motion } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Link } from "react-router";
 import { staggerContainer, heroText } from "../../lib/motion";
 import { companyInfo } from "../../data";
 
 export const HeroSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end start"]
+  });
+  
+  // Parallax effect - background moves slower than scroll
+  const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "30%"]);
+  const opacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
+  
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
+    <section ref={sectionRef} className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Background Image with Parallax */}
+      <motion.div 
+        className="absolute inset-0 h-[120%]"
+        style={{ y: backgroundY }}
+      >
         <img
           src="https://picsum.photos/seed/construction-hero/1920/1080"
           alt="Construction background"
@@ -16,13 +30,16 @@ export const HeroSection = () => {
         />
         <div className="absolute inset-0 bg-charcoal/80" />
         <div className="absolute inset-0 bg-linear-to-b from-charcoal/50 via-transparent to-charcoal" />
-      </div>
+      </motion.div>
 
       {/* Noise Texture Overlay */}
       <div className="absolute inset-0 bg-noise pointer-events-none" />
 
       {/* Content */}
-      <div className="relative z-10 container-custom text-center">
+      <motion.div 
+        className="relative z-10 container-custom text-center"
+        style={{ opacity }}
+      >
         <motion.div
           initial="hidden"
           animate="visible"
@@ -73,7 +90,7 @@ export const HeroSection = () => {
             </Link>
           </motion.div>
         </motion.div>
-      </div>
+      </motion.div>
     </section>
   );
 };
