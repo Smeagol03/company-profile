@@ -51,7 +51,7 @@ export const Navbar = () => {
   const { isDark, toggleTheme } = useThemeContext();
   const location = useLocation();
   const navigate = useNavigate();
-  
+
   // Refs for scroll optimization
   const rafIdRef = useRef<number | null>(null);
   const isScrolledRef = useRef(false);
@@ -59,14 +59,14 @@ export const Navbar = () => {
   // Memoized language lookup
   const currentLanguage = useMemo(
     () => languages.find((l) => l.code === currentLang),
-    [currentLang]
+    [currentLang],
   );
 
   // Optimized scroll handler with RAF throttling
   useEffect(() => {
     const handleScroll = () => {
       if (rafIdRef.current !== null) return;
-      
+
       rafIdRef.current = requestAnimationFrame(() => {
         const scrolled = window.scrollY > 50;
         if (scrolled !== isScrolledRef.current) {
@@ -79,7 +79,7 @@ export const Navbar = () => {
 
     // Check initial scroll position
     handleScroll();
-    
+
     window.addEventListener("scroll", handleScroll, { passive: true });
     return () => {
       window.removeEventListener("scroll", handleScroll);
@@ -113,7 +113,7 @@ export const Navbar = () => {
       }
       return location.pathname.startsWith(href);
     },
-    [location.pathname]
+    [location.pathname],
   );
 
   const handleLogoClick = useCallback(
@@ -125,7 +125,7 @@ export const Navbar = () => {
         navigate("/");
       }
     },
-    [location.pathname, navigate]
+    [location.pathname, navigate],
   );
 
   const handleNavClick = useCallback(
@@ -135,7 +135,7 @@ export const Navbar = () => {
       }
       setIsOpen(false);
     },
-    [location.pathname]
+    [location.pathname],
   );
 
   const toggleLangMenu = useCallback(() => {
@@ -164,7 +164,10 @@ export const Navbar = () => {
             ? "bg-charcoal/98 backdrop-blur-xl shadow-2xl"
             : "bg-charcoal/95 backdrop-blur-md"
         }`}
-        style={{ transition: "background-color 0.3s, backdrop-filter 0.3s, box-shadow 0.3s" }}
+        style={{
+          transition:
+            "background-color 0.3s, backdrop-filter 0.3s, box-shadow 0.3s",
+        }}
       >
         {/* Top Info Bar - Hide on scroll */}
         <AnimatePresence initial={false} mode="sync">
@@ -255,7 +258,7 @@ export const Navbar = () => {
 
         {/* Main Nav */}
         <div className="container-custom">
-          <nav className="flex items-center justify-between h-16 lg:h-[68px]">
+          <nav className="flex items-center justify-between h-16 lg:h-17">
             {/* Logo */}
             <Link
               to="/"
@@ -457,9 +460,9 @@ export const Navbar = () => {
                       key={link.href}
                       initial={{ opacity: 0, x: 20 }}
                       animate={{ opacity: 1, x: 0 }}
-                      transition={{ 
+                      transition={{
                         delay: Math.min(0.05 + index * 0.03, 0.25),
-                        duration: 0.2
+                        duration: 0.2,
                       }}
                       className="will-change-[opacity,transform]"
                     >
@@ -547,7 +550,7 @@ export const Navbar = () => {
       </AnimatePresence>
 
       {/* Spacer for fixed navbar */}
-      <div className="h-16 lg:h-[68px] bg-charcoal" />
+      <div className="h-16 lg:h-17 bg-charcoal" />
     </>
   );
 };
