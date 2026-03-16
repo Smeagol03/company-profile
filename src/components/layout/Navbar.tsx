@@ -157,7 +157,7 @@ export const Navbar = () => {
     <>
       {/* Main Navbar */}
       <header
-        className={`fixed left-0 right-0 top-0 z-50 will-change-transform ${
+        className={`fixed left-0 right-0 top-0 z-50 ${
           isScrolled
             ? "bg-charcoal/98 backdrop-blur-xl shadow-2xl"
             : "bg-charcoal/95 backdrop-blur-md"
