@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router";
 import { Menu, X, Sun, Moon, Globe, Phone, Clock } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import { companyInfo } from "../../data";
+import { useThemeContext } from "../ThemeProvider";
 
 const navLinks = [
   { label: "Beranda", href: "/" },
@@ -45,9 +46,9 @@ const topBarVariants = {
 export const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isDark, setIsDark] = useState(false);
   const [currentLang, setCurrentLang] = useState("id");
   const [showLangMenu, setShowLangMenu] = useState(false);
+  const { isDark, toggleTheme } = useThemeContext();
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -104,15 +105,6 @@ export const Navbar = () => {
       document.body.style.overflow = originalOverflow;
     };
   }, [isOpen]);
-
-  // Memoized callbacks
-  const toggleDarkMode = useCallback(() => {
-    setIsDark((prev) => {
-      const newValue = !prev;
-      document.documentElement.classList.toggle("dark", newValue);
-      return newValue;
-    });
-  }, []);
 
   const isActive = useCallback(
     (href: string) => {
@@ -328,7 +320,7 @@ export const Navbar = () => {
               </a>
 
               <button
-                onClick={toggleDarkMode}
+                onClick={toggleTheme}
                 className="p-2 rounded-sm hover:bg-warm-white/10 transition-colors duration-200 group"
                 aria-label="Toggle dark mode"
               >
@@ -497,7 +489,7 @@ export const Navbar = () => {
                 {/* Mobile Actions */}
                 <div className="space-y-3">
                   <button
-                    onClick={toggleDarkMode}
+                    onClick={toggleTheme}
                     className="flex items-center gap-3 w-full py-3 px-4 rounded-sm text-warm-white hover:bg-warm-white/5 transition-colors duration-200"
                   >
                     {isDark ? (

@@ -11,6 +11,9 @@ export { Layout } from './layout/Layout';
 export { Navbar } from './layout/Navbar';
 export { Footer } from './layout/Footer';
 
+// Theme
+export { ThemeProvider } from './ThemeProvider';
+
 // Section Components
 export { HeroSection } from './sections/HeroSection';
 export { StatsSection } from './sections/StatsSection';

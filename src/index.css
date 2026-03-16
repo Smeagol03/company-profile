@@ -1,7 +1,17 @@
 @import "tailwindcss";
 
 @theme {
-  /* Colors - Industrial Palette */
+  /* Colors - Light Mode (Default) */
+  --color-bg-primary: #F5F3EE;
+  --color-bg-secondary: #FDFCFA;
+  --color-bg-tertiary: #E8E6DF;
+  
+  --color-text-primary: #1A1A18;
+  --color-text-secondary: #3D3D39;
+  --color-text-muted: #6B6B65;
+  --color-text-inverse: #F5F3EE;
+  
+  /* Legacy Colors - Maps to new semantic colors */
   --color-charcoal: #1A1A18;
   --color-charcoal-800: #2E2E2B;
   --color-charcoal-700: #3D3D39;
@@ -43,6 +53,18 @@
   --spacing-128: 32rem;
 }
 
+/* Dark Mode Colors */
+.dark {
+  --color-bg-primary: #1A1A18;
+  --color-bg-secondary: #2E2E2B;
+  --color-bg-tertiary: #3D3D39;
+  
+  --color-text-primary: #F5F3EE;
+  --color-text-secondary: #AEADA6;
+  --color-text-muted: #8C8C85;
+  --color-text-inverse: #1A1A18;
+}
+
 /* Base Styles */
 @layer base {
   * {
@@ -54,11 +76,14 @@
   }
   
   body {
-    @apply font-body text-concrete-dark bg-warm-white antialiased;
+    @apply font-body antialiased;
+    background-color: var(--color-bg-primary);
+    color: var(--color-text-secondary);
   }
   
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display text-charcoal font-bold tracking-tight;
+    @apply font-display font-bold tracking-tight;
+    color: var(--color-text-primary);
   }
   
   ::selection {
@@ -134,7 +159,8 @@
 
 /* Focus Styles */
 *:focus-visible {
-  @apply outline-none ring-2 ring-gold ring-offset-2 ring-offset-warm-white;
+  @apply outline-none ring-2 ring-gold ring-offset-2;
+  ring-offset-color: var(--color-bg-primary);
 }
 
 /* Reduced Motion */
