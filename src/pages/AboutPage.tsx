@@ -1,5 +1,5 @@
 import { motion } from "framer-motion";
-import { Target, Eye, Award, Users } from "lucide-react";
+import { Target, Eye, Award, Users, Flag, Rocket, Trophy, Building, CheckCircle } from "lucide-react";
 import { SectionLabel } from "../components/ui/SectionLabel";
 import { ScrollReveal } from "../components/ui/ScrollReveal";
 import { companyInfo, team } from "../data";
@@ -8,24 +8,33 @@ import { staggerContainer, fadeInUp } from "../lib/motion";
 const milestones = [
   {
     year: 1999,
-    title: "Berdiri",
-    description:
-      "Tabranitect didirikan sebagai perusahaan konstruksi skala menengah.",
+    title: "Pendirian Perusahaan",
+    description: "Tabranitect didirikan sebagai perusahaan konstruksi skala menengah dengan fokus pada kualitas dan integritas.",
+    icon: Flag,
   },
   {
     year: 2005,
-    title: "Ekspansi",
-    description: "Memperluas layanan ke sektor infrastruktur dan industrial.",
+    title: "Ekspansi Bisnis",
+    description: "Memperluas layanan ke sektor infrastruktur dan industrial, membuka cabang di 3 kota besar.",
+    icon: Rocket,
   },
   {
     year: 2015,
     title: "Sertifikasi ISO",
-    description: "Mendapatkan sertifikasi ISO 9001 untuk manajemen mutu.",
+    description: "Mendapatkan sertifikasi ISO 9001 untuk manajemen mutu dan ISO 14001 untuk manajemen lingkungan.",
+    icon: Trophy,
+  },
+  {
+    year: 2020,
+    title: "Digital Transformation",
+    description: "Mengadopsi teknologi BIM dan sistem manajemen proyek digital untuk efisiensi dan akurasi.",
+    icon: Building,
   },
   {
     year: 2024,
     title: "500+ Proyek",
-    description: "Berhasil menyelesaikan lebih dari 500 proyek konstruksi.",
+    description: "Berhasil menyelesaikan lebih dari 500 proyek konstruksi dengan tingkat kepuasan klien 98%.",
+    icon: CheckCircle,
   },
 ];
 
@@ -83,39 +92,65 @@ export const AboutPage = () => {
       </section>
 
       {/* Timeline */}
-      <section className="section-padding bg-charcoal-50">
+      <section className="section-padding bg-charcoal">
         <div className="container-custom">
           <ScrollReveal className="text-center mb-16">
-            <SectionLabel>PERJALANAN KAMI</SectionLabel>
-            <h2 className="font-display text-3xl md:text-4xl font-bold text-charcoal mt-4">
+            <SectionLabel light>PERJALANAN KAMI</SectionLabel>
+            <h2 className="font-display text-3xl md:text-4xl font-bold text-warm-white mt-4">
               Sejarah Perusahaan
             </h2>
+            <p className="font-body text-concrete-light max-w-2xl mx-auto mt-4">
+              Perjalanan 25 tahun membangun kepercayaan dan kualitas dalam industri konstruksi Indonesia
+            </p>
           </ScrollReveal>
 
-          <div className="relative max-w-4xl mx-auto">
-            {milestones.map((milestone, index) => (
-              <ScrollReveal key={milestone.year} delay={index * 0.1}>
-                <div
-                  className={`flex items-center gap-8 mb-12 ${index % 2 === 1 ? "md:flex-row-reverse" : ""}`}
-                >
-                  <div className="flex-1">
-                    <div className="bg-white p-6 rounded-sm shadow-md">
-                      <span className="font-display text-3xl font-bold text-gold">
-                        {milestone.year}
-                      </span>
-                      <h3 className="font-display text-xl font-bold text-charcoal mt-2 mb-2">
-                        {milestone.title}
-                      </h3>
-                      <p className="font-body text-concrete text-sm">
-                        {milestone.description}
-                      </p>
+          <div className="relative">
+            {/* Vertical Line */}
+            <div className="absolute left-1/2 top-0 bottom-0 w-0.5 bg-charcoal-600 hidden lg:block" />
+
+            <div className="space-y-12 lg:space-y-0">
+              {milestones.map((milestone, index) => {
+                const Icon = milestone.icon;
+                const isLeft = index % 2 === 0;
+                
+                return (
+                  <ScrollReveal key={milestone.year} delay={index * 0.15}>
+                    <div className={`relative flex flex-col lg:flex-row items-center gap-6 lg:gap-12 ${isLeft ? 'lg:flex-row' : 'lg:flex-row-reverse'}`}>
+                      {/* Content Card */}
+                      <div className={`w-full lg:w-1/2 ${isLeft ? 'lg:text-right lg:pr-12' : 'lg:text-left lg:pl-12'}`}>
+                        <motion.div
+                          whileHover={{ y: -5 }}
+                          className={`bg-charcoal-800 border border-charcoal-700 p-6 lg:p-8 rounded-sm hover:border-gold/30 transition-all duration-300 ${isLeft ? 'lg:ml-auto' : 'lg:mr-auto'} lg:max-w-md`}
+                        >
+                          <span className="font-display text-4xl lg:text-5xl font-bold text-gold block mb-2">
+                            {milestone.year}
+                          </span>
+                          <h3 className="font-display text-xl lg:text-2xl font-bold text-warm-white mb-3">
+                            {milestone.title}
+                          </h3>
+                          <p className="font-body text-concrete-light leading-relaxed">
+                            {milestone.description}
+                          </p>
+                        </motion.div>
+                      </div>
+
+                      {/* Center Icon */}
+                      <div className="relative z-10 flex-shrink-0">
+                        <motion.div
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          className="w-16 h-16 bg-gold rounded-full flex items-center justify-center shadow-lg shadow-gold/20"
+                        >
+                          <Icon size={28} className="text-charcoal" />
+                        </motion.div>
+                      </div>
+
+                      {/* Spacer for opposite side */}
+                      <div className="hidden lg:block w-1/2" />
                     </div>
-                  </div>
-                  <div className="w-4 h-4 bg-gold rounded-full shrink-0 hidden md:block" />
-                  <div className="flex-1 hidden md:block" />
-                </div>
-              </ScrollReveal>
-            ))}
+                  </ScrollReveal>
+                );
+              })}
+            </div>
           </div>
         </div>
       </section>

@@ -1,4 +1,5 @@
-import { motion } from 'framer-motion';
+import { useRef } from 'react';
+import { motion, useInView } from 'framer-motion';
 import { ScrollReveal } from '../ui/ScrollReveal';
 import { SectionLabel } from '../ui/SectionLabel';
 
@@ -15,12 +16,15 @@ const partners = [
   { id: '8', name: 'Acset Indonusa', abbr: 'ACSET' },
 ];
 
-// Double the array for seamless infinite scroll
-const duplicatedPartners = [...partners, ...partners];
+// Duplicate for seamless loop - total 2 sets
+const marqueeItems = [...partners, ...partners];
 
 export const PartnersSection = () => {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { once: false, margin: "-100px" });
+
   return (
-    <section className="py-16 lg:py-20 bg-warm-offwhite overflow-hidden">
+    <section ref={sectionRef} className="py-16 lg:py-20 bg-warm-offwhite overflow-hidden">
       <div className="container-custom">
         <ScrollReveal>
           <div className="text-center mb-12">
@@ -32,85 +36,12 @@ export const PartnersSection = () => {
         </ScrollReveal>
       </div>
 
-      {/* Marquee Container */}
-      <div className="relative">
-        {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-warm-offwhite to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-warm-offwhite to-transparent z-10 pointer-events-none" />
+      {/* Marquee Row 1 - Moving Left */}
+      <MarqueeRow items={marqueeItems} direction="left" speed={30} pause={!isInView} />
 
-        {/* Scrolling Track */}
-        <motion.div
-          className="flex gap-12"
-          animate={{
-            x: [0, -50 * partners.length * 4],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 30,
-              ease: "linear",
-            },
-          }}
-        >
-          {duplicatedPartners.map((partner, index) => (
-            <motion.div
-              key={`${partner.id}-${index}`}
-              whileHover={{ scale: 1.05 }}
-              className="flex-shrink-0 group cursor-pointer"
-            >
-              <div className="w-40 h-24 bg-warm-white border border-charcoal/10 rounded-sm flex flex-col items-center justify-center px-4 transition-all duration-300 group-hover:border-gold/50 group-hover:shadow-lg group-hover:shadow-gold/10">
-                {/* Logo Placeholder - Replace with actual image */}
-                <div className="font-display text-xl font-bold text-charcoal/40 group-hover:text-gold transition-colors duration-300">
-                  {partner.abbr}
-                </div>
-                <div className="font-body text-xs text-concrete group-hover:text-charcoal transition-colors duration-300 mt-1 text-center">
-                  {partner.name}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
-      </div>
-
-      {/* Second Row - Reverse Direction */}
-      <div className="relative mt-8">
-        {/* Gradient Masks */}
-        <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-warm-offwhite to-transparent z-10 pointer-events-none" />
-        <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-warm-offwhite to-transparent z-10 pointer-events-none" />
-
-        {/* Scrolling Track - Reverse */}
-        <motion.div
-          className="flex gap-12"
-          animate={{
-            x: [-50 * partners.length * 4, 0],
-          }}
-          transition={{
-            x: {
-              repeat: Infinity,
-              repeatType: "loop",
-              duration: 35,
-              ease: "linear",
-            },
-          }}
-        >
-          {[...duplicatedPartners].reverse().map((partner, index) => (
-            <motion.div
-              key={`${partner.id}-reverse-${index}`}
-              whileHover={{ scale: 1.05 }}
-              className="flex-shrink-0 group cursor-pointer"
-            >
-              <div className="w-40 h-24 bg-warm-white border border-charcoal/10 rounded-sm flex flex-col items-center justify-center px-4 transition-all duration-300 group-hover:border-gold/50 group-hover:shadow-lg group-hover:shadow-gold/10">
-                <div className="font-display text-xl font-bold text-charcoal/40 group-hover:text-gold transition-colors duration-300">
-                  {partner.abbr}
-                </div>
-                <div className="font-body text-xs text-concrete group-hover:text-charcoal transition-colors duration-300 mt-1 text-center">
-                  {partner.name}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </motion.div>
+      {/* Marquee Row 2 - Moving Right */}
+      <div className="mt-8">
+        <MarqueeRow items={[...partners].reverse().concat([...partners].reverse())} direction="right" speed={35} pause={!isInView} />
       </div>
 
       {/* Stats Row */}
@@ -138,3 +69,66 @@ export const PartnersSection = () => {
     </section>
   );
 };
+
+// Marquee Row Component with CSS-based infinite scroll
+interface MarqueeRowProps {
+  items: typeof partners;
+  direction: 'left' | 'right';
+  speed: number;
+  pause: boolean;
+}
+
+const MarqueeRow = ({ items, direction, speed, pause }: MarqueeRowProps) => {
+  // Calculate total width: item width (160px) + gap (48px) * number of items
+  // We have 2 sets of items, so animate from 0 to -50% of totalWidth
+  const itemWidth = 160; // w-40 = 10rem = 160px
+  const gap = 48; // gap-12 = 3rem = 48px
+  const totalWidth = items.length * (itemWidth + gap);
+  const halfWidth = totalWidth / 2; // Width of one set
+
+  const initialX = direction === 'left' ? 0 : -halfWidth;
+  const animateX = direction === 'left' ? -halfWidth : 0;
+
+  return (
+    <div className="relative">
+      {/* Gradient Masks */}
+      <div className="absolute left-0 top-0 bottom-0 w-32 bg-gradient-to-r from-warm-offwhite to-transparent z-10 pointer-events-none" />
+      <div className="absolute right-0 top-0 bottom-0 w-32 bg-gradient-to-l from-warm-offwhite to-transparent z-10 pointer-events-none" />
+
+      {/* Scrolling Track */}
+      <motion.div
+        className="flex"
+        style={{ gap: '48px' }}
+        initial={{ x: initialX }}
+        animate={pause ? { x: initialX } : { x: animateX }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: speed,
+            ease: "linear",
+          },
+        }}
+      >
+        {items.map((partner, index) => (
+          <motion.div
+            key={`${partner.id}-${index}`}
+            whileHover={{ scale: 1.05 }}
+            className="flex-shrink-0 group cursor-pointer"
+          >
+            <div className="w-40 h-24 bg-warm-white border border-charcoal/10 rounded-sm flex flex-col items-center justify-center px-4 transition-all duration-300 group-hover:border-gold/50 group-hover:shadow-lg group-hover:shadow-gold/10">
+              <div className="font-display text-xl font-bold text-charcoal/40 group-hover:text-gold transition-colors duration-300">
+                {partner.abbr}
+              </div>
+              <div className="font-body text-xs text-concrete group-hover:text-charcoal transition-colors duration-300 mt-1 text-center">
+                {partner.name}
+              </div>
+            </div>
+          </motion.div>
+        ))}
+      </motion.div>
+    </div>
+  );
+};
+
+export default PartnersSection;

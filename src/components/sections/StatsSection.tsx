@@ -1,13 +1,13 @@
-import { useInView } from 'react-intersection-observer';
-import { motion } from 'framer-motion';
-import { stats } from '../../data';
-import { AnimatedCounter } from '../ui/AnimatedCounter';
+import { useInView } from "react-intersection-observer";
+import { motion } from "framer-motion";
+import { stats } from "../../data";
+import { AnimatedCounter } from "../ui/AnimatedCounter";
 
 export const StatsSection = () => {
   const [ref, inView] = useInView({ triggerOnce: true, threshold: 0.2 });
 
   return (
-    <section ref={ref} className="bg-charcoal-800 py-16 lg:py-20">
+    <section ref={ref} className="bg-charcoal-800 rounded-b-3xl py-16 lg:py-20">
       <div className="container-custom">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
           {stats.map((stat, index) => (
