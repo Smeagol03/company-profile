@@ -1,15 +1,32 @@
-import { motion } from 'framer-motion';
-import { Target, Eye, Award, Users } from 'lucide-react';
-import { SectionLabel } from '../components/ui/SectionLabel';
-import { ScrollReveal } from '../components/ui/ScrollReveal';
-import { companyInfo, team } from '../data';
-import { staggerContainer, fadeInUp } from '../lib/motion';
+import { motion } from "framer-motion";
+import { Target, Eye, Award, Users } from "lucide-react";
+import { SectionLabel } from "../components/ui/SectionLabel";
+import { ScrollReveal } from "../components/ui/ScrollReveal";
+import { companyInfo, team } from "../data";
+import { staggerContainer, fadeInUp } from "../lib/motion";
 
 const milestones = [
-  { year: 1999, title: 'Berdiri', description: 'Tabranitect didirikan sebagai perusahaan konstruksi skala menengah.' },
-  { year: 2005, title: 'Ekspansi', description: 'Memperluas layanan ke sektor infrastruktur dan industrial.' },
-  { year: 2015, title: 'Sertifikasi ISO', description: 'Mendapatkan sertifikasi ISO 9001 untuk manajemen mutu.' },
-  { year: 2024, title: '500+ Proyek', description: 'Berhasil menyelesaikan lebih dari 500 proyek konstruksi.' },
+  {
+    year: 1999,
+    title: "Berdiri",
+    description:
+      "Tabranitect didirikan sebagai perusahaan konstruksi skala menengah.",
+  },
+  {
+    year: 2005,
+    title: "Ekspansi",
+    description: "Memperluas layanan ke sektor infrastruktur dan industrial.",
+  },
+  {
+    year: 2015,
+    title: "Sertifikasi ISO",
+    description: "Mendapatkan sertifikasi ISO 9001 untuk manajemen mutu.",
+  },
+  {
+    year: 2024,
+    title: "500+ Proyek",
+    description: "Berhasil menyelesaikan lebih dari 500 proyek konstruksi.",
+  },
 ];
 
 export const AboutPage = () => {
@@ -37,10 +54,12 @@ export const AboutPage = () => {
                 <div className="w-14 h-14 bg-gold/10 rounded-sm flex items-center justify-center mb-6">
                   <Target size={28} className="text-gold" />
                 </div>
-                <h2 className="font-display text-2xl font-bold text-charcoal mb-4">Visi</h2>
+                <h2 className="font-display text-2xl font-bold text-charcoal mb-4">
+                  Visi
+                </h2>
                 <p className="font-body text-concrete leading-relaxed">
-                  Menjadi perusahaan konstruksi terdepan di Indonesia yang dikenal karena kualitas,
-                  inovasi, dan kepuasan pelanggan.
+                  Menjadi perusahaan konstruksi terdepan di Indonesia yang
+                  dikenal karena kualitas, inovasi, dan kepuasan pelanggan.
                 </p>
               </div>
             </ScrollReveal>
@@ -50,10 +69,12 @@ export const AboutPage = () => {
                 <div className="w-14 h-14 bg-gold/10 rounded-sm flex items-center justify-center mb-6">
                   <Eye size={28} className="text-gold" />
                 </div>
-                <h2 className="font-display text-2xl font-bold text-charcoal mb-4">Misi</h2>
+                <h2 className="font-display text-2xl font-bold text-charcoal mb-4">
+                  Misi
+                </h2>
                 <p className="font-body text-concrete leading-relaxed">
-                  Memberikan layanan konstruksi berkualitas tinggi dengan standar keselamatan terbaik,
-                  tepat waktu, dan sesuai anggaran.
+                  Memberikan layanan konstruksi berkualitas tinggi dengan
+                  standar keselamatan terbaik, tepat waktu, dan sesuai anggaran.
                 </p>
               </div>
             </ScrollReveal>
@@ -74,15 +95,23 @@ export const AboutPage = () => {
           <div className="relative max-w-4xl mx-auto">
             {milestones.map((milestone, index) => (
               <ScrollReveal key={milestone.year} delay={index * 0.1}>
-                <div className={`flex items-center gap-8 mb-12 ${index % 2 === 1 ? 'md:flex-row-reverse' : ''}`}>
+                <div
+                  className={`flex items-center gap-8 mb-12 ${index % 2 === 1 ? "md:flex-row-reverse" : ""}`}
+                >
                   <div className="flex-1">
                     <div className="bg-white p-6 rounded-sm shadow-md">
-                      <span className="font-display text-3xl font-bold text-gold">{milestone.year}</span>
-                      <h3 className="font-display text-xl font-bold text-charcoal mt-2 mb-2">{milestone.title}</h3>
-                      <p className="font-body text-concrete text-sm">{milestone.description}</p>
+                      <span className="font-display text-3xl font-bold text-gold">
+                        {milestone.year}
+                      </span>
+                      <h3 className="font-display text-xl font-bold text-charcoal mt-2 mb-2">
+                        {milestone.title}
+                      </h3>
+                      <p className="font-body text-concrete text-sm">
+                        {milestone.description}
+                      </p>
                     </div>
                   </div>
-                  <div className="w-4 h-4 bg-gold rounded-full flex-shrink-0 hidden md:block" />
+                  <div className="w-4 h-4 bg-gold rounded-full shrink-0 hidden md:block" />
                   <div className="flex-1 hidden md:block" />
                 </div>
               </ScrollReveal>
@@ -118,8 +147,12 @@ export const AboutPage = () => {
                       className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                     />
                   </div>
-                  <h3 className="font-display text-xl font-bold text-charcoal">{member.name}</h3>
-                  <p className="font-body text-gold text-sm font-semibold mt-1">{member.position}</p>
+                  <h3 className="font-display text-xl font-bold text-charcoal">
+                    {member.name}
+                  </h3>
+                  <p className="font-body text-gold text-sm font-semibold mt-1">
+                    {member.position}
+                  </p>
                 </div>
               </motion.div>
             ))}
@@ -139,16 +172,30 @@ export const AboutPage = () => {
 
           <div className="grid md:grid-cols-3 gap-8">
             {[
-              { icon: Award, title: 'Kualitas', desc: 'Komitmen untuk menghasilkan karya terbaik' },
-              { icon: Users, title: 'Integritas', desc: 'Bekerja dengan jujur dan transparan' },
-              { icon: Target, title: 'Inovasi', desc: 'Terus berkembang dengan teknologi terbaru' },
+              {
+                icon: Award,
+                title: "Kualitas",
+                desc: "Komitmen untuk menghasilkan karya terbaik",
+              },
+              {
+                icon: Users,
+                title: "Integritas",
+                desc: "Bekerja dengan jujur dan transparan",
+              },
+              {
+                icon: Target,
+                title: "Inovasi",
+                desc: "Terus berkembang dengan teknologi terbaru",
+              },
             ].map((value) => (
               <ScrollReveal key={value.title}>
                 <div className="text-center">
                   <div className="w-16 h-16 bg-gold/10 rounded-sm flex items-center justify-center mx-auto mb-6">
                     <value.icon size={32} className="text-gold" />
                   </div>
-                  <h3 className="font-display text-xl font-bold text-warm-white mb-2">{value.title}</h3>
+                  <h3 className="font-display text-xl font-bold text-warm-white mb-2">
+                    {value.title}
+                  </h3>
                   <p className="font-body text-concrete-light">{value.desc}</p>
                 </div>
               </ScrollReveal>
